@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+</head>
+<body>
+    <h1>Inventory</h1>
+    <table border="1">
+        <tr>
+            <th>Item</th>
+            <th>Count</th>
+        </tr>
+        {% for item, count in inventory.items() %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>{{ count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
