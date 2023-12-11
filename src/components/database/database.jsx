@@ -8,6 +8,7 @@ const Database = () => {
   const [itemToAdd, setItemToAdd] = useState("");
   const [countToAdd, setCountToAdd] = useState(1);
   const [searchItem, setSearchItem] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("1");
 
   useEffect(() => {
     fetchInventory();
@@ -38,7 +39,39 @@ const Database = () => {
   const handleSearchItemChange = (event) => {
     setSearchItem(event.target.value);
   };
-
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+  const renderSizeOptions = () => {
+    if (selectedCategory === "1") {
+      return (
+        <select id="sizes">
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="SM">SM</option>
+          <option value="M">M</option>
+          <option value="ML">ML</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
+      );
+    } else if (selectedCategory === "2") {
+      return (
+        <select id="shoe-sizes">
+          <option value="36">36</option>
+          <option value="37">37</option>
+          <option value="38">38</option>
+          <option value="39">39</option>
+          <option value="40">40</option>
+          <option value="41">41</option>
+          <option value="42">42</option>
+          <option value="43">43</option>
+        </select>
+      );
+    } else {
+      return null;
+    }
+  };
   const handleAddItem = () => {
     // Check if itemToAdd is empty
     if (!itemToAdd) {
@@ -56,37 +89,42 @@ const Database = () => {
 
   return (
     <div className="container">
-    <div className="wrapper">
-      <div className="add_input">
-        <input
-          className="input"
-          type="text"
-          value={itemToAdd}
-          onChange={handleItemToAddChange}
-          placeholder="Enter item to add"
-        />
-        <input
-          className=" input"
-          type="number"
-          value={countToAdd}
-          onChange={handleCountToAddChange}
-          placeholder="Enter item quantity"
-        />
-        <button className="button" onClick={handleAddItem}>
-          Add Item
-        </button>
-        <input
-          className="input input_search"
-          type="text"
-          value={searchItem}
-          onChange={handleSearchItemChange}
-          placeholder="Search item"
-        />
+      <div className="wrapper">
+        <div className="add_input">
+        <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
+            <option value="1">Imbracaminte</option>
+            <option value="2">Incaltaminte</option>
+          </select>
+          {renderSizeOptions()}
+          <input
+            className="input"
+            type="text"
+            value={itemToAdd}
+            onChange={handleItemToAddChange}
+            placeholder="Numele produsului"
+          />
+          <input
+            className=" input"
+            type="number"s
+            value={countToAdd}
+            onChange={handleCountToAddChange}
+            placeholder="Cantitate"
+          />
+          <button className="button" onClick={handleAddItem}>
+            Add Item
+          </button>
+          <input
+            className="input input_search"
+            type="text"
+            value={searchItem}
+            onChange={handleSearchItemChange}
+            placeholder="Search item"
+          />
+        </div>
+        <div className="logo-container">
+
+        </div>
       </div>
-      <div className="logo-container">
-        
-      </div>
-          </div>
 
 
       <table className="table">
@@ -94,6 +132,8 @@ const Database = () => {
           <tr>
             <th className="th">Item</th>
             <th className="th">Count</th>
+            <th className="th">Category</th>
+            <th className="th">Size</th>
           </tr>
         </thead>
         <tbody>
