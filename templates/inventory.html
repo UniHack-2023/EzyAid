@@ -9,14 +9,14 @@
     <h1>Inventory</h1>
     <table border="1">
         <tr>
-            <th>Item</th>
-            <th>Count</th>
+            <th>Item Name</th>
+            <th>Pairs</th>
         </tr>
-        {% for item, count in inventory.items() %}
-        <tr>
-            <td>{{ item }}</td>
-            <td>{{ count }}</td>
-        </tr>
+        {% for item in inventory %}
+            <tr>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.pairs }}</td>
+            </tr>
         {% endfor %}
     </table>
 </body>
