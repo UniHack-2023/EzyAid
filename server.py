@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request
 import redis
 import json
 import requests
@@ -6,10 +6,15 @@ import requests
 app = Flask(__name__)
 redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-@app.route('/', methods=['GET'])
+@app.route('/inventory', methods=['GET'])
 def show_inventory():
     items = redis_client.hgetall('items')
+<<<<<<< HEAD:#app.py
     inventory = []
+=======
+    inventory = {item.decode('utf-8'): count.decode('utf-8') for item, count in items.items()}
+    return jsonify(inventory)
+>>>>>>> e7f55a8622cd1b08e5e02929e48b1342bda4de80:server.py
 
     for item, count in items.items():
         item_name = item.decode('utf-8')
@@ -29,6 +34,7 @@ def show_inventory():
 
 @app.route('/api/add/<item_name>', methods=['POST'])
 def add_item(item_name):
+<<<<<<< HEAD:#app.py
     existing_count = redis_client.hget('items', item_name)
 
     if existing_count:
@@ -49,17 +55,18 @@ def add_item(item_name):
     characteristics_str = json.dumps(characteristics)
 
     redis_client.hset(f'{item_name}_characteristics', size, characteristics_str)
+=======
+    count = redis_client.hincrby('items', item_name, request.json.get('count', 1))
+>>>>>>> e7f55a8622cd1b08e5e02929e48b1342bda4de80:server.py
 
     return jsonify({'status': 200, 'message': f'{item_name} added to the database ({new_count} times)'})
     
 
 @app.route('/characteristics/<item_name>', methods=['GET'])
 def show_characteristics(item_name):
-    # Retrieve characteristics from the Redis hash
     characteristics_str = redis_client.hget(f'{item_name}_characteristics', 'characteristics')
 
     if characteristics_str:
-        # Convert the JSON string back to a Python list
         characteristics = json.loads(characteristics_str.decode('utf-8'))
         return jsonify({'status': 200, 'characteristics': characteristics})
     else:
