@@ -73,9 +73,11 @@ def show_all_inventory():
             characteristics = json.loads(characteristics_str.decode('utf-8'))
             inventory.append({'item_name': item_name, 'count': count, **characteristics})
         else:
-            inventory.append({'item_name': item_name, 'count': count, 'size': 0})  # Default to 0 if size not found
+            # If no characteristics are found, set the default size to None
+            inventory.append({'item_name': item_name, 'count': count, 'size': None})
 
     return jsonify({'status': 200, 'inventory': inventory})
+
 
 
 
