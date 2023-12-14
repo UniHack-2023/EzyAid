@@ -56,6 +56,29 @@ def add_item(item_name):
 
     return jsonify({'status': 200, 'message': f'{item_name} added to the database ({new_count} times)'})
 
+@app.route('/inventory', methods=['GET'])
+def show_all_inventory():
+    items = redis_client.hgetall('items')
+    inventory = []
+
+    for item, count in items.items():
+        item_name = item.decode('utf-8')
+        count = count.decode('utf-8')
+
+        # Retrieve characteristics from the Redis hash
+        characteristics_str = redis_client.hget(f'{item_name}_characteristics', 'characteristics')
+
+        if characteristics_str:
+            # Convert the JSON string back to a Python dictionary
+            characteristics = json.loads(characteristics_str.decode('utf-8'))
+            inventory.append({'item_name': item_name, 'count': count, **characteristics})
+        else:
+            inventory.append({'item_name': item_name, 'count': count, 'size': 0})  # Default to 0 if size not found
+
+    return jsonify({'status': 200, 'inventory': inventory})
+
+
+
 @app.route('/characteristics/<item_name>', methods=['GET'])
 def show_characteristics(item_name):
     # Retrieve characteristics from the Redis list
