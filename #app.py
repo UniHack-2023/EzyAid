@@ -65,16 +65,22 @@ def show_all_inventory():
         item_name = item.decode('utf-8')
         count = count.decode('utf-8')
 
-        # Retrieve characteristics from the Redis hash
-        characteristics_str = redis_client.hget(f'{item_name}_characteristics', 'characteristics')
+        # Retrieve characteristics for each size from the Redis list
+        characteristics_sizes = redis_client.keys(f'*_characteristics_*')
+        characteristics = {}
 
-        if characteristics_str:
-            # Convert the JSON string back to a Python dictionary
-            characteristics = json.loads(characteristics_str.decode('utf-8'))
-            inventory.append({'item_name': item_name, 'count': count, **characteristics})
-        else:
-            # If no characteristics are found, set the default size to None
-            inventory.append({'item_name': item_name, 'count': count, 'size': None})
+        for size_key in characteristics_sizes:
+            size = size_key.decode('utf-8').rsplit('_', 1)[-1]
+            characteristics_list = redis_client.lrange(size_key, 0, -1)
+
+            if characteristics_list:
+                # Show only the size, not all characteristics
+                characteristics[size] = True
+            else:
+                # No characteristics for this size
+                characteristics[size] = False
+
+        inventory.append({'item_name': item_name, 'count': count, 'characteristics': characteristics})
 
     return jsonify({'status': 200, 'inventory': inventory})
 
