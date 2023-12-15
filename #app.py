@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request, render_template
 import redis
 import json
-
+import serial
 app = Flask(__name__)
 redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
-
+#arduino_serial = serial.Serial('COM3', 9600, timeout=1)
 @app.route('/', methods=['GET'])
 def show_inventory():
     items = redis_client.hgetall('items')
@@ -84,9 +84,6 @@ def show_all_inventory():
 
     return jsonify({'status': 200, 'inventory': inventory})
 
-
-
-
 @app.route('/characteristics/<item_name>', methods=['GET'])
 def show_characteristics(item_name):
     # Retrieve characteristics from the Redis list
@@ -99,6 +96,7 @@ def show_characteristics(item_name):
         return jsonify({'status': 200, 'characteristics': characteristics})
     else:
         return jsonify({'status': 404, 'message': f'Characteristics not found for {item_name}'})
+
 @app.route('/api/add-multiple', methods=['POST'])
 def add_multiple_items():
     try:
@@ -132,7 +130,18 @@ def add_multiple_items():
         return jsonify({'status': 200, 'message': 'Items added successfully'})
     except Exception as e:
         return jsonify({'status': 500, 'error': str(e)})
-       
 
+@app.route('/api/request/<item_name>/<item_size>', methods=['GET'])
+def request_item(item_name, item_size):
+    # Check the database for the specified item and size
+    key = f'{item_name}_{item_size}'
+    item_count = redis_client.hget('items', key)
+
+    if item_count:
+        # Item with specified size found, send "1" to Arduino
+        #arduino_serial.write(b'1')
+        return jsonify({'status': 200, 'message': f'Request for {item_name} ({item_size}) sent to Arduino'})
+    else:
+        return jsonify({'status': 404, 'message': f'Item not found for {item_name} ({item_size})'})
 if __name__ == '__main__':
     app.run(debug=True)
