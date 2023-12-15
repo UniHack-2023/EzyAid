@@ -99,6 +99,40 @@ def show_characteristics(item_name):
         return jsonify({'status': 200, 'characteristics': characteristics})
     else:
         return jsonify({'status': 404, 'message': f'Characteristics not found for {item_name}'})
+@app.route('/api/add-multiple', methods=['POST'])
+def add_multiple_items():
+    try:
+        data = request.get_json()
+        items = data.get('items', [])
+
+        for item in items:
+            item_name = item.get('item_name')
+            size = item.get('size', 'default_size')
+            pairs = item.get('pairs', 1)
+            color = item.get('color', 'default_color')
+            material = item.get('material', 'default_material')
+
+            existing_key = f'{item_name}_{size}'
+            existing_count = redis_client.hget('items', existing_key)
+
+            if existing_count:
+                existing_count = int(existing_count.decode('utf-8'))
+                new_count = existing_count + pairs
+                redis_client.hset('items', existing_key, new_count)
+            else:
+                new_count = pairs
+                redis_client.hset('items', existing_key, new_count)
+
+            characteristics = {'size': size, 'color': color, 'material': material}
+            characteristics_str = json.dumps(characteristics)
+
+            # Use a list to store characteristics for each size
+            redis_client.rpush(f'{item_name}_characteristics_{size}', characteristics_str)
+
+        return jsonify({'status': 200, 'message': 'Items added successfully'})
+    except Exception as e:
+        return jsonify({'status': 500, 'error': str(e)})
+       
 
 if __name__ == '__main__':
     app.run(debug=True)
