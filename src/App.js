@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from "axios";
-import {DB}from './components'
+import {DB,Inv}from './components'
 import "./App.css";
 
 function App() {
@@ -20,8 +20,7 @@ function App() {
         }
       />
       <Route path="/database" element={<DB />} />
-
-      {/* Add other routes as needed */}
+      {<Route path="/inventory" element={<Inv />} />}
     </Routes>
   </Router>
   );
