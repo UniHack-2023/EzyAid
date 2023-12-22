@@ -9,35 +9,24 @@ const Database = () => {
   const [shoeSizeToAdd, setShoeSizeToAdd] = useState("36");
   const [countToAdd, setCountToAdd] = useState(1);
   const [searchItem, setSearchItem] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("1");
+  const [Location, setLocation] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Imbracaminte");
   const navigate = useNavigate();
 
-  const handleItemToAddChange = (event) => {
-    setItemToAdd(event.target.value);
+  const createChangeHandler = (setStateFunction) => (event) => {
+    setStateFunction(event.target.value);
   };
-
-  const handleCountToAddChange = (event) => {
-    setCountToAdd(event.target.value);
-  };
-
-  const handleSearchItemChange = (event) => {
-    setSearchItem(event.target.value);
-  };
-
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
-
-  const handleSizeChange = (event) => {
-    setSizeToAdd(event.target.value);
-  };
-
-  const handleShoeSizeChange = (event) => {
-    setShoeSizeToAdd(event.target.value);
-  };
+  
+  const handleItemToAddChange = createChangeHandler(setItemToAdd);
+  const handleCountToAddChange = createChangeHandler(setCountToAdd);
+  const handleSearchItemChange = createChangeHandler(setSearchItem);
+  const handleCategoryChange = createChangeHandler(setSelectedCategory);
+  const handleSizeChange = createChangeHandler(setSizeToAdd);
+  const handleShoeSizeChange = createChangeHandler(setShoeSizeToAdd);
+  const handleLocation = createChangeHandler(setLocation);
 
   const renderSizeOptions = () => {
-    if (selectedCategory === "1") {
+    if (selectedCategory === "Imbracaminte") {
       return (
         <select id="sizes" value={sizeToAdd} onChange={handleSizeChange}>
           <option value="XS">XS</option>
@@ -81,16 +70,18 @@ const Database = () => {
 
     let requestData = {
       details: JSON.stringify({
-        count: countToAdd,
         category: selectedCategory,
-        size: selectedCategory === "1" ? sizeToAdd : shoeSizeToAdd,
+        locatie: Location,
+        count: countToAdd,
+        size: selectedCategory === "Incaltaminte" ? sizeToAdd : shoeSizeToAdd,
       }),
     };
-
+    console.log("Request Data:", requestData);
     // Make the API request only if itemToAdd is not empty
-    axios.post(`/api/add/${itemToAdd}`, requestData).then(() => {
+    axios.post(`/api/add/${Location}/${itemToAdd}`, requestData).then(() => {
       setItemToAdd("");
       setCountToAdd(1);
+      setLocation("");
     });
   };
 
@@ -98,13 +89,20 @@ const Database = () => {
     <div className="container">
       <div className="wrapper">
         <div className="add_input">
+        <input
+            className="input"
+            type="text"
+            value={Location}
+            onChange={handleLocation}
+            placeholder="Locatie"
+          />
           <select
             id="category"
             value={selectedCategory}
             onChange={handleCategoryChange}
           >
-            <option value="1">Imbracaminte</option>
-            <option value="2">Incaltaminte</option>
+            <option value="Imbracaminte">Imbracaminte</option>
+            <option value="Incaltaminte">Incaltaminte</option>
           </select>
           {renderSizeOptions()}
           <input
@@ -114,6 +112,7 @@ const Database = () => {
             onChange={handleItemToAddChange}
             placeholder="Numele produsului"
           />
+
           <input
             className="input"
             type="number"
