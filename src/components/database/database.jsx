@@ -11,6 +11,7 @@ const Database = () => {
   const [searchItem, setSearchItem] = useState("");
   const [Location, setLocation] = useState("");
   const [color,setColor] = useState("");
+  const [coords, setCoords] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Imbracaminte");
   const navigate = useNavigate();
 
@@ -26,6 +27,9 @@ const Database = () => {
   const handleShoeSizeChange = createChangeHandler(setShoeSizeToAdd);
   const handleLocation = createChangeHandler(setLocation);
   const handleColor = createChangeHandler(setColor);
+  const handleCoords = createChangeHandler(setCoords);
+
+
   const renderSizeOptions = () => { 
     if (selectedCategory === "Imbracaminte") {
       return (
@@ -81,6 +85,7 @@ const Database = () => {
         size: selectedCategory === "Incaltaminte" ? sizeToAdd : shoeSizeToAdd,
       }),
     };
+
     console.log("Request Data:", requestData);
     // Make the API request only if itemToAdd is not empty
     axios.post(`/api/add/${Location}/${itemToAdd}`, requestData).then(() => {
@@ -89,8 +94,18 @@ const Database = () => {
       setLocation("");
       setColor("");
     });
-  };
 
+  };
+  const handleAddLocation = () =>{
+    let requestLocationData = {
+      details:JSON.stringify({
+        coords: coords,
+      })
+    }
+    axios.post(`/api/locatii/${Location}`,requestLocationData).then(()=>{
+      setCoords("");
+    });
+  }
   return (
 
     <div className="container">
@@ -147,6 +162,12 @@ const Database = () => {
           <button className="button" onClick={() => navigate('/inventory')}>
             Inventory
           </button>
+        <input className="input"
+        type="text"
+        value={coords}
+        onChange={handleCoords}
+        placeholder="Coords for a new Locaiton"/>
+        <button className="button" onClick={handleAddLocation}>Add Location</button>
         </div>
         <div className="logo-container"></div>
       </div>
