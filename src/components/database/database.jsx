@@ -10,6 +10,7 @@ const Database = () => {
   const [countToAdd, setCountToAdd] = useState(1);
   const [searchItem, setSearchItem] = useState("");
   const [Location, setLocation] = useState("");
+  const [color,setColor] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Imbracaminte");
   const navigate = useNavigate();
 
@@ -24,8 +25,8 @@ const Database = () => {
   const handleSizeChange = createChangeHandler(setSizeToAdd);
   const handleShoeSizeChange = createChangeHandler(setShoeSizeToAdd);
   const handleLocation = createChangeHandler(setLocation);
-
-  const renderSizeOptions = () => {
+  const handleColor = createChangeHandler(setColor);
+  const renderSizeOptions = () => { 
     if (selectedCategory === "Imbracaminte") {
       return (
         <select id="sizes" value={sizeToAdd} onChange={handleSizeChange}>
@@ -63,15 +64,19 @@ const Database = () => {
   };
 
   const handleAddItem = () => {
-    if (!itemToAdd) {
-      alert("Item name cannot be empty");
+    if (!itemToAdd || !color || !Location) {
+      alert("Fields cannot be empty!!");
       return;
+    }
+    if(countToAdd == 0){
+      alert("Can not add 0 items!")
     }
 
     let requestData = {
       details: JSON.stringify({
-        category: selectedCategory,
         locatie: Location,
+        category: selectedCategory,
+        color: color,
         count: countToAdd,
         size: selectedCategory === "Incaltaminte" ? sizeToAdd : shoeSizeToAdd,
       }),
@@ -82,10 +87,12 @@ const Database = () => {
       setItemToAdd("");
       setCountToAdd(1);
       setLocation("");
+      setColor("");
     });
   };
 
   return (
+
     <div className="container">
       <div className="wrapper">
         <div className="add_input">
@@ -112,7 +119,13 @@ const Database = () => {
             onChange={handleItemToAddChange}
             placeholder="Numele produsului"
           />
-
+          <input
+            className="input"
+            type="text"
+            value={color}
+            onChange={handleColor}
+            placeholder="Culoarea produsului"
+          />
           <input
             className="input"
             type="number"

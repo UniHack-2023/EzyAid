@@ -24,6 +24,7 @@ def show_inventory():
                         'item': item_name,
                         'count': details.get('count', 0),
                         'category': details.get('category', ''),
+                        'culoare' : details.get('color',''),
                         'size': details.get('size', ''),
             })
         inventory[key.decode('utf-8')] = key_values
