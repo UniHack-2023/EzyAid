@@ -42,19 +42,40 @@ def show_inventory():
 
     return jsonify({'inventory': inventory})
 @app.route('/locatii', methods=['GET'])
-def get_locatii_coords():
+def get_locatii_data():
     try:
         locatii_data = redis_client.hgetall("Locatii")
-        locatii_coords = {}
-        
+        locatii_info = {}
+
         for location, details_str in locatii_data.items():
             details = json.loads(details_str.decode('utf-8'))
-            locatii_coords[location.decode('utf-8')] = details.get('coords', '')
-        
-        return jsonify(locatii_coords)
-    
+            items_data = redis_client.hgetall(location.decode('utf-8'))
+
+            key_values = []
+            for item, item_details_str in items_data.items():
+                item_name = item.decode('utf-8')
+                if item_details_str:
+                    item_details = json.loads(item_details_str.decode('utf-8'))
+                    key_values.append({
+                        'item': item_name,
+                        'count': item_details.get('count', 0),
+                        'category': item_details.get('category', ''),
+                        'culoare': item_details.get('color', ''),
+                        'size': item_details.get('size', ''),
+                    })
+
+            coords = details.get('coords', [])
+            coords_list = coords if isinstance(coords, list) else list(map(float, coords.split(', ')))
+
+            locatii_info[location.decode('utf-8')] = {
+                'coords': coords_list,
+                'items': key_values,
+            }
+
+        return jsonify(locatii_info)
+
     except Exception as e:
-        print(f"Error fetching Locatii coordinates: {e}")
+        print(f"Error fetching Locatii data: {e}")
         return jsonify({'error': 'Internal Server Error'}), 500
 @app.route('/api/add/<location>/<item_name>', methods=['POST'])
 def add_item(location, item_name):

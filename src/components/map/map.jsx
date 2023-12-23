@@ -16,15 +16,22 @@ const Map = () => {
   useEffect(() => {
     const fetchWaypoints = async () => {
       try {
-        const response = await axios.get('/locatii'); // Use the new /locatii endpoint
+        const response = await axios.get('/locatii');
         const locatiiData = response.data;
-        const newWaypoints = Object.entries(locatiiData).map(([location, coordsArray]) => ({
-          coordinates: coordsArray.map(coord => {
-            const [lat, lng] = coord.split(',').map(Number);
-            return [lat, lng];
-          }),
-          title: location,
-        }));
+        const newWaypoints = Object.entries(locatiiData).map(([location, data]) => {
+          let coordinates = [];
+          if (Array.isArray(data.coords)) {
+            coordinates = data.coords.map(coord => coord.split(',').map(c => parseFloat(c)));
+          } else if (typeof data.coords === 'string') {
+            coordinates = [data.coords.split(',').map(c => parseFloat(c))];
+          }
+
+          const items = data.items.map(item => `${item.item}: ${item.count}`).join('<br>');
+          return {
+            coordinates,
+            title: `${location}<br>${items}`,
+          };
+        });
         setWaypoints(newWaypoints);
       } catch (error) {
         console.error('Error fetching waypoints:', error);
