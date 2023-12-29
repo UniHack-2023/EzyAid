@@ -8,7 +8,6 @@ const Database = () => {
   const [sizeToAdd, setSizeToAdd] = useState("XS");
   const [shoeSizeToAdd, setShoeSizeToAdd] = useState("36");
   const [countToAdd, setCountToAdd] = useState(1);
-  const [searchItem, setSearchItem] = useState("");
   const [Location, setLocation] = useState("");
   const [color,setColor] = useState("");
   const [coords, setCoords] = useState("");
@@ -21,7 +20,6 @@ const Database = () => {
   
   const handleItemToAddChange = createChangeHandler(setItemToAdd);
   const handleCountToAddChange = createChangeHandler(setCountToAdd);
-  const handleSearchItemChange = createChangeHandler(setSearchItem);
   const handleCategoryChange = createChangeHandler(setSelectedCategory);
   const handleSizeChange = createChangeHandler(setSizeToAdd);
   const handleShoeSizeChange = createChangeHandler(setShoeSizeToAdd);
@@ -151,16 +149,11 @@ const Database = () => {
           <button className="button" onClick={handleAddItem}>
             Add Item
           </button>
-
-          <input
-            className="input input_search"
-            type="text"
-            value={searchItem}
-            onChange={handleSearchItemChange}
-            placeholder="Search item"
-          />
           <button className="button" onClick={() => navigate('/inventory')}>
             Inventory
+          </button>
+          <button className="button" onClick={() => navigate('/harta')}>
+            Harta
           </button>
         <input className="input"
         type="text"
