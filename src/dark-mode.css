@@ -1,0 +1,76 @@
+body.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    /* Set the background color for the entire page */
+    color: white;
+}
+
+.container.dark-mode {
+    background-color: #111;
+    color: white;
+}
+
+.wrapper.dark-mode-fields {
+    background-color: #222;
+}
+
+.add_input.dark-mode-fields {
+    /* Modify styles for dark mode fields */
+    border: 1px solid #555;
+    padding: 2rem;
+    /* Adjusted padding for dark mode */
+    background-color: #222;
+    /* Adjusted background color for dark mode */
+}
+
+.input.dark-mode-input,
+select.dark-mode-input {
+    /* Modify styles for input in dark mode */
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 1rem;
+    /* Adjusted padding for dark mode */
+}
+
+.button.dark-mode-button {
+    /* Modify styles for button in dark mode */
+    background-color: #555;
+    color: white;
+    padding: 1rem;
+    /* Adjusted padding for dark mode */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+body {
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.container {
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.wrapper {
+    transition: background-color 0.5s;
+}
+
+.add_input,select {
+    transition: background-color 0.5s, border 0.5s, padding 0.5s;
+}
+
+.input {
+    transition: background-color 0.5s, color 0.5s, border 0.5s, padding 0.5s;
+}
+
+.button {
+    transition: background-color 0.5s, color 0.5s, padding 0.5s;
+}

@@ -1,0 +1,41 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    z-index: 1000; /* Ensures the navbar appears above other content */
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 0 10px; /* Reduced margin between links */
+    padding: 10px;
+    border-radius: 5px;
+  
+  }
+  .nav-link:nth-child(1){
+    margin-left: 10rem;
+  }
+  
+  .nav-link:hover {
+    background-color: #555;
+  }
+  .dark-mode {
+    background-color: #111;
+    color: white;
+  }
+  .dark-mode-button {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

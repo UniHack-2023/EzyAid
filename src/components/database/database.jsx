@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {Nav} from "../index";
 import axios from "axios";
 import "./database.css";
+import { useDarkMode } from "../../darkModeContext";
 
 const Database = () => {
   const [itemToAdd, setItemToAdd] = useState("");
@@ -12,8 +13,7 @@ const Database = () => {
   const [color,setColor] = useState("");
   const [coords, setCoords] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Imbracaminte");
-  const navigate = useNavigate();
-
+  const { darkMode } = useDarkMode();
   const createChangeHandler = (setStateFunction) => (event) => {
     setStateFunction(event.target.value);
   };
@@ -31,7 +31,7 @@ const Database = () => {
   const renderSizeOptions = () => { 
     if (selectedCategory === "Imbracaminte") {
       return (
-        <select id="sizes" value={sizeToAdd} onChange={handleSizeChange}>
+        <select id="sizes" value={sizeToAdd} onChange={handleSizeChange} className={` ${darkMode ? "dark-mode-input" : ""}`}>
           <option value="XS">XS</option>
           <option value="S">S</option>
           <option value="SM">SM</option>
@@ -47,6 +47,7 @@ const Database = () => {
           id="shoe-sizes"
           value={shoeSizeToAdd}
           onChange={handleShoeSizeChange}
+          className={` ${darkMode ? "dark-mode-input" : ""}`}
         >
           <option value="36" defaultValue>
             36
@@ -70,7 +71,7 @@ const Database = () => {
       alert("Fields cannot be empty!!");
       return;
     }
-    if(countToAdd == 0){
+    if(countToAdd === 0){
       alert("Can not add 0 items!")
     }
 
@@ -94,23 +95,51 @@ const Database = () => {
     });
 
   };
-  const handleAddLocation = () =>{
-    let requestLocationData = {
-      details:JSON.stringify({
-        coords: coords,
+  const handleAddLocation = () => {
+    // Check if the location already exists
+    axios.get(`/api/locatii/${Location}`)
+      .then((response) => {
+        const existingCoords = response.data[Location]?.coords;
+  
+        if (existingCoords) {
+          alert(`Location '${Location}' already exists with coordinates ${existingCoords}`);
+        } else {
+          // If the location doesn't exist, proceed with adding it
+          // Ensure that the coords are in the format "10,10"
+          const formattedCoords = coords.split(',').map(coord => coord.trim()).join(', ');
+          let requestLocationData = {
+            details: JSON.stringify({
+              coords: formattedCoords,
+            }),
+          };
+  
+          axios.post(`/api/locatii/${Location}`, requestLocationData)
+            .then(() => {
+              setCoords("");
+              alert(`Location '${Location}' added successfully with coordinates ${formattedCoords}`);
+            })
+            .catch((error) => {
+              console.error("Error adding location:", error);
+              alert("Error adding location. Please try again.");
+            });
+        }
       })
-    }
-    axios.post(`/api/locatii/${Location}`,requestLocationData).then(()=>{
-      setCoords("");
-    });
-  }
-  return (
+      .catch((error) => {
+        console.error("Error checking location:", error);
+        alert("Error checking location. Please try again.");
+      });
+  };
 
-    <div className="container">
+
+  return (
+    
+
+    <div className={`container ${darkMode ? "dark-mode" : ""}`}>
+      <Nav />
       <div className="wrapper">
-        <div className="add_input">
-        <input
-            className="input"
+        <div className={`add_input ${darkMode ? "dark-mode-fields" : ""}`}>
+          <input
+            className={`input ${darkMode ? "dark-mode-input" : ""}`}
             type="text"
             value={Location}
             onChange={handleLocation}
@@ -120,47 +149,46 @@ const Database = () => {
             id="category"
             value={selectedCategory}
             onChange={handleCategoryChange}
+            className={` ${darkMode ? "dark-mode-input" : ""}`}
           >
             <option value="Imbracaminte">Imbracaminte</option>
             <option value="Incaltaminte">Incaltaminte</option>
           </select>
           {renderSizeOptions()}
           <input
-            className="input"
+            className={`input ${darkMode ? "dark-mode-input" : ""}`}
             type="text"
             value={itemToAdd}
             onChange={handleItemToAddChange}
             placeholder="Numele produsului"
           />
           <input
-            className="input"
+            className={`input ${darkMode ? "dark-mode-input" : ""}`}
             type="text"
             value={color}
             onChange={handleColor}
             placeholder="Culoarea produsului"
           />
           <input
-            className="input"
+            className={`input ${darkMode ? "dark-mode-input" : ""}`}
             type="number"
             value={countToAdd}
             onChange={handleCountToAddChange}
             placeholder="Cantitate"
           />
-          <button className="button" onClick={handleAddItem}>
+          <button className={`button ${darkMode ? "dark-mode-button" : ""}`} onClick={handleAddItem}>
             Add Item
           </button>
-          <button className="button" onClick={() => navigate('/inventory')}>
-            Inventory
+          <input
+            className={`input ${darkMode ? "dark-mode-input" : ""}`}
+            type="text"
+            value={coords}
+            onChange={handleCoords}
+            placeholder="Coords for a new Location"
+          />
+          <button className={`button ${darkMode ? "dark-mode-button" : ""}`} onClick={handleAddLocation}>
+            Add Location
           </button>
-          <button className="button" onClick={() => navigate('/harta')}>
-            Harta
-          </button>
-        <input className="input"
-        type="text"
-        value={coords}
-        onChange={handleCoords}
-        placeholder="Coords for a new Locaiton"/>
-        <button className="button" onClick={handleAddLocation}>Add Location</button>
         </div>
         <div className="logo-container"></div>
       </div>

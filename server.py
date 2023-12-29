@@ -64,8 +64,8 @@ def get_locatii_data():
                         'size': item_details.get('size', ''),
                     })
 
-            coords = details.get('coords', [])
-            coords_list = coords if isinstance(coords, list) else list(map(float, coords.split(', ')))
+            coords = details.get('coords', '')
+            coords_list = list(map(float, coords.split(', '))) if coords else []
 
             locatii_info[location.decode('utf-8')] = {
                 'coords': coords_list,
@@ -77,6 +77,8 @@ def get_locatii_data():
     except Exception as e:
         print(f"Error fetching Locatii data: {e}")
         return jsonify({'error': 'Internal Server Error'}), 500
+    
+
 @app.route('/api/add/<location>/<item_name>', methods=['POST'])
 def add_item(location, item_name):
     details_str = request.json.get('details', '')
@@ -101,28 +103,54 @@ def add_item(location, item_name):
 
     return jsonify({'status': 200, 'message': f'{item_name} added/appended to the database'})
 
-@app.route('/api/locatii/<location>', methods=['POST'])
+@app.route('/api/locatii/<location>', methods=['POST', 'GET'])
 def new_location(location):
-    details_str = request.json.get('details', '')
-    if not details_str:
-        return jsonify({'status': 400, 'message': 'Details are required'})
+    if request.method == 'POST':
+        try:
+            details_str = request.json.get('details', '')
+            if not details_str:
+                return jsonify({'status': 400, 'message': 'Details are required'})
 
-    details = json.loads(details_str)
+            details = json.loads(details_str)
 
-    # Get existing details for the specified location
-    existing_details_str = redis_client.hget("Locatii", location)
+            # Check if 'coords' key exists in details
+            coords_str = details.get('coords', '')
 
-    if existing_details_str:
-        existing_details = json.loads(existing_details_str.decode('utf-8'))
-        # Append new details to the existing ones
-        existing_details = append_details(existing_details, details)
+            try:
+                # Try to convert coordinates to a list of floats
+                coords_list = list(map(float, coords_str.split(','))) if coords_str else []
+            except ValueError:
+                # Handle the case where coordinates cannot be converted to floats
+                return jsonify({'status': 400, 'message': 'Invalid coordinates format'})
+
+            # Check if the location name already has coordinates
+            existing_coords_str = redis_client.hget("Locatii", location)
+            if existing_coords_str:
+                return jsonify({'status': 400, 'message': f'{location} already exists'})
+
+            # Add new details with coordinates to the Redis database
+            new_details = {'coords': coords_list, **details}
+            redis_client.hset("Locatii", location, json.dumps(new_details))
+
+            return jsonify({'status': 200, 'message': f'{location} has been added to the database with coordinates'})
+        except Exception as e:
+            print(f"Error processing new location: {e}")
+            return jsonify({'status': 500, 'message': 'Internal Server Error'})
+
+    elif request.method == 'GET':
+        # You can handle the GET request to retrieve data here
+        locatii_data = redis_client.hgetall("Locatii")
+        locatii_info = {}
+
+        for loc, coords_str in locatii_data.items():
+            coords = json.loads(coords_str.decode('utf-8')).get('coords', '')
+            coords_list = list(map(float, coords.split(','))) if coords else []
+            locatii_info[loc.decode('utf-8')] = {'coords': coords_list}
+
+        return jsonify(locatii_info)
+
     else:
-        existing_details = details
-
-    # Store updated details in a hash named 'Locatii'
-    redis_client.hset("Locatii", location, json.dumps(existing_details))
-
-    return jsonify({'status': 200, 'message': f'{location} has been added/appended to the database'})
+        return jsonify({'status': 405, 'message': 'Method Not Allowed'}), 405
 
 if __name__ == '__main__':
     app.run(debug=True)
