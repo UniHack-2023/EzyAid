@@ -87,7 +87,6 @@ function Map() {
     <div className={` ${darkMode ? "dark-mode" : ""}`}>
       <Nav />
       <div>
-        <label>Select Location:</label>
         <select className={` ${darkMode ? "dark-mode-input" : ""}`} onChange={(e) => setSelectedLocation(e.target.value)}>
           <option value="">All Locations</option>
           {waypoints.map((waypoint) => (
@@ -98,7 +97,6 @@ function Map() {
         </select>
       </div>
       <div>
-        <label>Select Color:</label>
         <select className={` ${darkMode ? "dark-mode-input" : ""}`} onChange={(e) => setSelectedColor(e.target.value)}>
           <option value="">All Colors</option>
           {waypoints.reduce((colors, waypoint) => {

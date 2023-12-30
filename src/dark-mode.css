@@ -2,7 +2,9 @@ body.dark-mode {
     background-color: #333;
     color: white;
 }
-
+p{
+    color:black !important;
+}
 html,
 body {
     margin: 0;
@@ -38,7 +40,9 @@ select.dark-mode-input {
     padding: 1rem;
     /* Adjusted padding for dark mode */
 }
-
+Nav {
+    margin-bottom: 3rem;
+}
 .button.dark-mode-button {
     /* Modify styles for button in dark mode */
     background-color: #555;

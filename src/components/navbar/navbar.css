@@ -9,6 +9,7 @@
     padding: 10px;
     background-color: #333;
     z-index: 1000; /* Ensures the navbar appears above other content */
+
   }
   
   .nav-link {
@@ -38,4 +39,18 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+    .navbar{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .nav-link,.dark-mode-button {
+      margin: auto;
+    }
+  
+    .nav-link:nth-child(1) {
+      margin-left: auto;
+    }
   }
