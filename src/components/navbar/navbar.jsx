@@ -1,10 +1,7 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import { useDarkMode } from '../../darkModeContext';
+import { Link } from 'react-router-dom';
 import './navbar.css'
-const Navbar = () => {
-  const { darkMode, toggleDarkMode } = useDarkMode();
-
+const Navbar = ({ darkMode, toggleDarkMode }) => {
   return (
     <div className={`navbar ${darkMode ? 'dark' : 'light'}`}>
       <Link to="/harta" className="nav-link">
@@ -14,7 +11,7 @@ const Navbar = () => {
         Inventory
       </Link>
       <button className="dark-mode-button" onClick={toggleDarkMode}>
-        {darkMode ? "Light Mode" : "Dark Mode"}
+        {darkMode ? '🌞' : '🌙'}
       </button>
     </div>
   );

@@ -13,7 +13,11 @@ const Database = () => {
   const [color,setColor] = useState("");
   const [coords, setCoords] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Imbracaminte");
-  const { darkMode } = useDarkMode();
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
   const createChangeHandler = (setStateFunction) => (event) => {
     setStateFunction(event.target.value);
   };
@@ -135,7 +139,7 @@ const Database = () => {
     
 
     <div className={`container ${darkMode ? "dark-mode" : ""}`}>
-      <Nav />
+      <Nav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <div className="wrapper">
         <div className={`add_input ${darkMode ? "dark-mode-fields" : ""}`}>
           <input
