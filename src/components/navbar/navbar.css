@@ -40,6 +40,10 @@
     border-radius: 5px;
     cursor: pointer;
   }
+  .size{
+    scale: 1.5;
+    background-color: transparent !important;
+  }
   @media screen and (max-width: 768px) {
     .navbar{
       display: flex;

@@ -93,8 +93,19 @@ def add_item(location, item_name):
 
     if existing_details_str:
         existing_details = json.loads(existing_details_str.decode('utf-8'))
-        # Append new details to the existing ones
-        existing_details = append_details(existing_details, details)
+        # Check if existing details match the new details (name, category, color, and size)
+        if (
+            existing_details.get('item_name') == details.get('item_name') and
+            existing_details.get('category') == details.get('category') and
+            existing_details.get('color') == details.get('color') and
+            existing_details.get('size') == details.get('size')
+        ):
+            # If they match, increment the count
+            existing_details['count'] += details.get('count', 1)
+        else:
+            # If they don't match, treat it as a new item
+            return jsonify({'status': 200, 'message': f'{item_name} is a new item. Add it as needed.'})
+
     else:
         existing_details = details
 
@@ -102,6 +113,8 @@ def add_item(location, item_name):
     redis_client.hset(location, item_name, json.dumps(existing_details))
 
     return jsonify({'status': 200, 'message': f'{item_name} added/appended to the database'})
+
+
 
 @app.route('/api/locatii/<location>', methods=['POST', 'GET'])
 def new_location(location):

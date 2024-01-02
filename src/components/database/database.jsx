@@ -45,7 +45,7 @@ const Database = () => {
           <option value="XL">XL</option>
         </select>
       );
-    } else if (selectedCategory === "2") {
+    } else if (selectedCategory === "Incaltaminte") {
       return (
         <select
           id="shoe-sizes"
@@ -85,7 +85,7 @@ const Database = () => {
         category: selectedCategory,
         color: color,
         count: countToAdd,
-        size: selectedCategory === "Incaltaminte" ? sizeToAdd : shoeSizeToAdd,
+        size: selectedCategory === "Imbracaminte" ? sizeToAdd : shoeSizeToAdd,
       }),
     };
 

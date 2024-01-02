@@ -73,7 +73,7 @@ function Map() {
       const { location, coords, items } = waypoint;
       if (coords.length === 2) {
         const marker = L.marker(coords, { icon: customMarkerIcon }).addTo(map);
-        marker.bindPopup(`<b>${location}</b><br>${items.map(item => `${item.item}: ${item.count}`).join('<br>')}`);
+        marker.bindPopup(`<b>${location}</b><br>${items.map(item => `${item.item}: ${item.count} (${item.culoare},${item.size})`).join('<br>')}`);
       }
     });
 

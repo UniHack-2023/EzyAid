@@ -1,6 +1,9 @@
-body{
-  overflow: hidden;
+
+
+* {
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
+
 .container {
   display: flex;
   justify-content: center;
@@ -14,21 +17,27 @@ body{
 
 .wrapper {
   display: flex;
+  margin: 1rem;
+  flex-direction: row;
 }
 
-.add_input,select {
+.add_input,
+select {
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 8px 0 0 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-select{
+
+select {
   width: 100% !important;
 }
-.input,select {
-  width: 95%;
-  margin-bottom: 1rem;
+
+.input,
+select {
+  width: 100%; /* Adjusted width */
+  margin-bottom: 0.5rem;
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -39,7 +48,7 @@ select{
   padding: 1rem;
   background-color: #007bff;
   color: #fff;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -64,17 +73,19 @@ select{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 /* Media Query for Small Screens */
 @media screen and (max-width: 600px) {
   .wrapper {
     flex-direction: column;
   }
-  
-  .add_input, select {
+
+  .add_input,
+  select {
     padding: 1rem;
+    border-radius: 8px;
   }
 }
+
 .container {
-margin-top: 2rem;
+  margin-top: 2rem;
 }
