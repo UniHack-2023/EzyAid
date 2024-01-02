@@ -49,7 +49,7 @@ select.dark-mode-input {
 /* Existing styles remain unchanged */
 
 /* Dark mode styles */
-.container2.dark-mode {
+.container2.dark-mode{
     background-color: #333;
     color: white;
   }
@@ -104,10 +104,9 @@ body {
     transition: background-color 0.5s, color 0.5s;
 }
 
-.container {
+.container,.container2{
     transition: background-color 0.5s, color 0.5s;
 }
-
 .wrapper {
     transition: background-color 0.5s;
 }

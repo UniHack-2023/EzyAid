@@ -7,25 +7,29 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 
   // Define a mapping between route paths and their corresponding link destinations and texts
   const routes = [
-    { path: '/harta', destination: '/database', text: 'Database' },
+    { path: '/harta', destination: '/harta', text: 'Harta' },
     { path: '/inventory', destination: '/inventory', text: 'Inventory' },
+    { path: '/database', destination: '/database', text: 'Database' },
     // Add more routes as needed
   ];
 
   // Find the route data for the current path
   const currentRoute = routes.find((route) => route.path === location.pathname);
 
-  // Default to 'Harta' if the current route is not in the mapping
-  const linkText = currentRoute ? currentRoute.text : 'Harta';
-
   return (
     <div className={`navbar ${darkMode ? 'dark' : 'light'}`}>
-      <Link to={currentRoute ? currentRoute.destination : '/harta'} className="nav-link">
-        {linkText}
-      </Link>
-      <Link to="/inventory" className={`nav-link ${location.pathname === '/inventory' ? 'active' : ''}`}>
-        Inventory
-      </Link>
+      {/* Dynamically create links based on the current route */}
+      {routes.map((route) =>
+        route.path !== location.pathname ? (
+          <Link
+            key={route.path}
+            to={route.destination}
+            className={`nav-link ${location.pathname === route.destination ? 'active' : ''}`}
+          >
+            {route.path === location.pathname ? currentRoute.text : route.text}
+          </Link>
+        ) : null
+      )}
       <button className="dark-mode-button size" onClick={toggleDarkMode}>
         {darkMode ? '🌞' : '🌙'}
       </button>
