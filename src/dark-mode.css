@@ -46,7 +46,59 @@ select.dark-mode-input {
   border-radius: 4px;
   cursor: pointer;
 }
+/* Existing styles remain unchanged */
 
+/* Dark mode styles */
+.container2.dark-mode {
+    background-color: #333;
+    color: white;
+  }
+  
+  .heading.dark-mode {
+    color: white;
+  }
+  
+  .table.dark-mode th,
+  .table.dark-mode td {
+    border-bottom: 1px solid #ddd;
+    color: white;
+  }
+  
+  .table.dark-mode th {
+    background-color: #444;
+  }
+  
+  .item-name.dark-mode {
+    color: white;
+  }
+  
+  .details.dark-mode {
+    color: white;
+  }
+  
+  .detail.dark-mode {
+    margin-bottom: 5px;
+  }
+  
+  .detail-label.dark-mode {
+    font-weight: bold;
+  }
+  
+  .key-values.dark-mode {
+    color: white;
+  }
+  
+  .detail-value.dark-mode {
+    display: inline;
+    color: white;
+  }
+  
+  .loading.dark-mode {
+    color: white;
+  }
+  
+  /* Additional dark mode styles can be added as needed */
+  
 
 body {
     transition: background-color 0.5s, color 0.5s;

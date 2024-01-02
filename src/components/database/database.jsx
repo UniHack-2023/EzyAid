@@ -176,6 +176,7 @@ const Database = () => {
           <input
             className={`input ${darkMode ? "dark-mode-input" : ""}`}
             type="number"
+
             value={countToAdd <= 0 ? 1 : countToAdd}
             onChange={handleCountToAddChange}
             placeholder="Cantitate"

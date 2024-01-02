@@ -17,8 +17,10 @@ function Map() {
   const [waypoints, setWaypoints] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
-  const { darkMode } = useDarkMode();
-   
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,7 +87,7 @@ function Map() {
 
   return (
     <div className={` ${darkMode ? "dark-mode" : ""}`}>
-      <Nav />
+      <Nav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <div>
         <select className={` ${darkMode ? "dark-mode-input" : ""}`} onChange={(e) => setSelectedLocation(e.target.value)}>
           <option value="">All Locations</option>
