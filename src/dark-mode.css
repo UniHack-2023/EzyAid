@@ -99,12 +99,27 @@ select.dark-mode-input {
   
   /* Additional dark mode styles can be added as needed */
   
-
+  .dark-mode .nav-link:hover {
+    background-color: #444; /* Dark background on hover in dark mode */
+  }
+  
+  .dark-mode {
+    color: white;
+  }
+  
+  .dark-mode-button {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 body {
     transition: background-color 0.5s, color 0.5s;
 }
 
-.container,.container2{
+.container,.container2,.navbar{
     transition: background-color 0.5s, color 0.5s;
 }
 .wrapper {
