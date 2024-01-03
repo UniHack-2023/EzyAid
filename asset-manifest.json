@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/EzyAid/static/css/main.4d6470a4.css",
+    "main.js": "/EzyAid/static/js/main.ca3aa8e5.js",
+    "static/media/logo.jpeg": "/EzyAid/static/media/logo.ebe64eb5f8b2d15f7a4c.jpeg",
+    "index.html": "/EzyAid/index.html",
+    "main.4d6470a4.css.map": "/EzyAid/static/css/main.4d6470a4.css.map",
+    "main.ca3aa8e5.js.map": "/EzyAid/static/js/main.ca3aa8e5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4d6470a4.css",
+    "static/js/main.ca3aa8e5.js"
+  ]
+}
