@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./inv.css"; // Import the stylesheet
 import {Nav} from '../index';
-import { useDarkMode } from "../../darkModeContext";
 const Inv = () => {
   const [inventory, setInventory] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
