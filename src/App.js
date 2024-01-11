@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { DarkModeProvider } from './darkModeContext' // Adjust the path accordingly
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { DarkModeProvider } from './darkModeContext';
 import { DB, Inv, Map } from './components';
 import "./App.css";
 import "./dark-mode.css";
@@ -8,8 +8,7 @@ import "./dark-mode.css";
 function App() {
   return (
     <DarkModeProvider>
-    <Router>
-      
+      <Router>
         <Routes>
           <Route
             path="/"
@@ -24,7 +23,7 @@ function App() {
           <Route path="/inventory" element={<Inv />} />
           <Route path="/harta" element={<Map />} />
         </Routes>
-    </Router>
+      </Router>
     </DarkModeProvider>
   );
 }

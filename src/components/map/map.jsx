@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import { Nav } from '../index';
 import './map.css'
-import { useDarkMode } from "../../darkModeContext";
 
 const customMarkerIcon = new L.Icon({
   iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',

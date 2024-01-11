@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {Nav} from "../index";
 import axios from "axios";
 import "./database.css";
-import { useDarkMode } from "../../darkModeContext";
 
 const Database = () => {
   const [itemToAdd, setItemToAdd] = useState("");
