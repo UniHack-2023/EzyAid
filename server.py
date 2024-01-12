@@ -101,7 +101,7 @@ def add_item(location, item_name):
             existing_details.get('size') == details.get('size')
         ):
             # If they match, increment the count
-            existing_details['count'] += details.get('count', 1)
+            existing_details['count'] += int(details.get('count', 1)) 
         else:
             # If they don't match, treat it as a new item
             return jsonify({'status': 200, 'message': f'{item_name} is a new item. Add it as needed.'})
