@@ -81,6 +81,8 @@ def get_locatii_data():
 
 @app.route('/api/add/<location>/<item_name>', methods=['POST'])
 def add_item(location, item_name):
+    location = location.capitalize()
+    item_name = item_name.capitalize()
     details_str = request.json.get('details', '')
     
     if not details_str:
@@ -90,6 +92,13 @@ def add_item(location, item_name):
         details = json.loads(details_str)
     except json.JSONDecodeError:
         return jsonify({'status': 400, 'message': 'Invalid JSON format in details'})
+
+    # Capitalize specific fields within the 'details' dictionary
+    capitalize_fields = ['category', 'color', 'locatie', 'size']
+    for field in capitalize_fields:
+        if field in details and isinstance(details[field], str):
+            details[field] = details[field].capitalize()
+
 
     # Get existing details for the specified location and item name
     existing_details_str = redis_client.hget(location, item_name)
@@ -101,22 +110,26 @@ def add_item(location, item_name):
             return jsonify({'status': 500, 'message': 'Error decoding existing details JSON'})
 
         # Check if existing details match the new details (name, category, color, and size)
-    if (
-        existing_details.get('item_name') == details.get('item_name') and
-        existing_details.get('category') == details.get('category') and
-        existing_details.get('color') == details.get('color') and
-        existing_details.get('size') == details.get('size')
-    ):
-        # If they match, increment the count
-        existing_details['count'] = int(existing_details.get('count', 0)) + int(details.get('count', 1))
+        if (
+            existing_details.get('item_name') == details.get('item_name') and
+            existing_details.get('category') == details.get('category') and
+            existing_details.get('color') == details.get('color') and
+            existing_details.get('size') == details.get('size')
+        ):
+            # If they match, increment the count
+            existing_details['count'] = int(existing_details.get('count', 0)) + int(details.get('count', 1))
+        else:
+            # If they don't match, treat it as a new item
+            return jsonify({'status': 200, 'message': f'{item_name} is a new item. Add it as needed.'})
+
+        # Store updated details in a hash named 'items'
+        redis_client.hset(location, item_name, json.dumps(existing_details))
+
+        return jsonify({'status': 200, 'message': f'{item_name} added/appended to the database'})
     else:
-        # If they don't match, treat it as a new item
-        return jsonify({'status': 200, 'message': f'{item_name} is a new item. Add it as needed.'})
-
-    # Store updated details in a hash named 'items'
-    redis_client.hset(location, item_name, json.dumps(existing_details))
-
-    return jsonify({'status': 200, 'message': f'{item_name} added/appended to the database'})
+        # If there are no existing details, treat it as a new item and add it
+        redis_client.hset(location, item_name, json.dumps(details))
+        return jsonify({'status': 200, 'message': f'{item_name} added to the database'})
 
 
 

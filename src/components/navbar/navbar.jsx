@@ -8,8 +8,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
   // Define a mapping between route paths and their corresponding link destinations and texts
   const routes = [
     { path: '/harta', destination: '/harta', text: 'Harta' },
-    { path: '/inventory', destination: '/inventory', text: 'Inventory' },
-    { path: '/doner', destination: '/doner', text: 'Doner' },
+    { path: '/donator', destination: '/donator', text: 'Donator' },
     // Add more routes as needed
   ];
 

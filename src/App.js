@@ -12,14 +12,9 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
-              <>
-                {/* Redirect to /database */}
-                <Navigate to="/doner" replace />
-              </>
-            }
+            element={<><Navigate to="/donator" replace /></>}
           />
-          <Route path="/doner" element={<Doner />} />
+          <Route path="/donator" element={<Doner />} />
           <Route path="/database" element={<DB />} />
           <Route path="/inventory" element={<Inv />} />
           <Route path="/harta" element={<Map />} />
