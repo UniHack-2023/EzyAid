@@ -86,28 +86,32 @@ def add_item(location, item_name):
     if not details_str:
         return jsonify({'status': 400, 'message': 'Details are required'})
 
-    details = json.loads(details_str)
+    try:
+        details = json.loads(details_str)
+    except json.JSONDecodeError:
+        return jsonify({'status': 400, 'message': 'Invalid JSON format in details'})
 
     # Get existing details for the specified location and item name
     existing_details_str = redis_client.hget(location, item_name)
 
     if existing_details_str:
-        existing_details = json.loads(existing_details_str.decode('utf-8'))
-        # Check if existing details match the new details (name, category, color, and size)
-        if (
-            existing_details.get('item_name') == details.get('item_name') and
-            existing_details.get('category') == details.get('category') and
-            existing_details.get('color') == details.get('color') and
-            existing_details.get('size') == details.get('size')
-        ):
-            # If they match, increment the count
-            existing_details['count'] += int(details.get('count', 1)) 
-        else:
-            # If they don't match, treat it as a new item
-            return jsonify({'status': 200, 'message': f'{item_name} is a new item. Add it as needed.'})
+        try:
+            existing_details = json.loads(existing_details_str.decode('utf-8'))
+        except json.JSONDecodeError:
+            return jsonify({'status': 500, 'message': 'Error decoding existing details JSON'})
 
+        # Check if existing details match the new details (name, category, color, and size)
+    if (
+        existing_details.get('item_name') == details.get('item_name') and
+        existing_details.get('category') == details.get('category') and
+        existing_details.get('color') == details.get('color') and
+        existing_details.get('size') == details.get('size')
+    ):
+        # If they match, increment the count
+        existing_details['count'] = int(existing_details.get('count', 0)) + int(details.get('count', 1))
     else:
-        existing_details = details
+        # If they don't match, treat it as a new item
+        return jsonify({'status': 200, 'message': f'{item_name} is a new item. Add it as needed.'})
 
     # Store updated details in a hash named 'items'
     redis_client.hset(location, item_name, json.dumps(existing_details))
