@@ -29,9 +29,6 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           </Link>
         ) : null
       )}
-      <button className="dark-mode-button size" onClick={toggleDarkMode}>
-        {darkMode ? '🌞' : '🌙'}
-      </button>
     </div>
   );
 };

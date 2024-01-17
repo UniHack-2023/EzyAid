@@ -4,7 +4,7 @@ import "./inv.css"; // Import the stylesheet
 import {Nav} from '../index';
 const Inv = () => {
   const [inventory, setInventory] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };

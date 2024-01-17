@@ -16,7 +16,7 @@ function Map() {
   const [waypoints, setWaypoints] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
