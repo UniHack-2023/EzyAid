@@ -62,14 +62,14 @@ select {
 .logo-container {
   flex: 1;
   text-align: center;
-  background-color: #fff;
+  background-color:transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('./logo.jpeg');
+  background-image: url('./logo_2.png');
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
