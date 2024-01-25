@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import redis
+import hashlib
 import json
 
 app = Flask(__name__)
@@ -78,7 +79,28 @@ def get_locatii_data():
         print(f"Error fetching Locatii data: {e}")
         return jsonify({'error': 'Internal Server Error'}), 500
     
+@app.route('/api/add/<name>/<cnp>', methods=['POST'])
+def add_cnp(name, cnp):
+    # Convert name to uppercase
+    name = name.upper()
 
+    # Get details from the JSON payload
+    details = request.json.get('details', {})
+
+    # Hash the name and CNP using SHA-256
+    #hashed_name = hashlib.sha256(name.encode()).hexdigest()
+    #hashed_cnp = hashlib.sha256(cnp.encode()).hexdigest()
+
+    redis_key = "Users"
+    redis_client.hset(redis_key, name, cnp)
+
+
+    response_data = {
+        'status': 'success',
+        'message': 'Data added successfully',
+        name :cnp
+    }
+    return jsonify(response_data), 200
 @app.route('/api/add/<location>/<item_name>', methods=['POST'])
 def add_item(location, item_name):
     location = location.capitalize()
