@@ -84,24 +84,31 @@ def add_cnp(name, cnp):
     # Convert name to uppercase
     name = name.upper()
 
-    # Get details from the JSON payload
-    details = request.json.get('details', {})
+    # Hash the CNP using SHA-256
+    hashed_cnp = hashlib.sha256(cnp.encode()).hexdigest()
 
-    # Hash the name and CNP using SHA-256
-    #hashed_name = hashlib.sha256(name.encode()).hexdigest()
-    #hashed_cnp = hashlib.sha256(cnp.encode()).hexdigest()
-
-    redis_key = "Users"
-    redis_client.hset(redis_key, name, cnp)
-
+    # Check if CNP already exists
+    existing_name = redis_client.hget("Users", hashed_cnp)
+    if existing_name:
+        # CNP already exists
+        if existing_name.decode().upper() != name:
+            response_data = {
+                'status': 'error',
+                'message': 'CNP already exists with a different name'
+            }
+            return jsonify(response_data), 400
+    else:
+        # Add hashed CNP to Redis
+        redis_client.hset("Users", hashed_cnp, name)
 
     response_data = {
         'status': 'success',
         'message': 'Data added successfully',
-        name :cnp
+        'name': name,
+        'cnp': cnp
     }
     return jsonify(response_data), 200
-@app.route('/api/add/<location>/<item_name>', methods=['POST'])
+@app.route('/api/<location>/<item_name>', methods=['POST'])
 def add_item(location, item_name):
     location = location.capitalize()
     item_name = item_name.capitalize()
