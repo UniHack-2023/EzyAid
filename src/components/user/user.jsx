@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import axios from "axios";
 
 const User = () => {
@@ -7,6 +7,7 @@ const User = () => {
   const [user, setUser] = useState('');
   const [items, setItems] = useState([]);
   const preselectedLocation = "Pit";
+  const cnpStatusRef = useRef(null);
   const [cnpDetails, setCnpDetails] = useState(null);
 
   const createChangeHandler = (setStateFunction) => (event) => {
@@ -28,27 +29,25 @@ const User = () => {
 
   const validateCNP = () => {
     if (cnp.length !== 13) {
-      alert('CNP must be 13 characters long.');
       return false;
     }
-
+  
     // CNP validation logic
     const cnpDigits = cnp.split('').map(Number);
     const controlKey = [2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9];
     let sum = 0;
-
+  
     for (let i = 0; i < 12; i++) {
       sum += cnpDigits[i] * controlKey[i];
     }
-
+  
     const remainder = sum % 11;
     const validControlKey = remainder === 10 ? 1 : remainder;
     if (validControlKey !== cnpDigits[12]) {
-      alert('Invalid CNP.');
       return false;
     }
-
-    // Extract location and date
+  
+    // Extract location, date, and sex
     const judetArray = [
       'Alba', 'Arad', 'Arges', 'Bacau', 'Bihor', 'Bistrita-Nasaud', 'Botosani', 'Brasov', 'Braila', 'Buzau',
       'Caras-Severin', 'Cluj', 'Constanta', 'Covasna', 'Dambovita', 'Dolj', 'Galati', 'Gorj', 'Harghita',
@@ -57,12 +56,13 @@ const User = () => {
       'Bucuresti', 'Bucuresti S1', 'Bucuresti S2', 'Bucuresti S3', 'Bucuresti S4', 'Bucuresti S5', 'Bucuresti S6',
       'Calarasi', 'Giurgiu'
     ];
+  
     const judet = 10 * cnpDigits[7] + cnpDigits[8];
     const location = judetArray[judet - 1];
-
+  
     let an, luna, zi;
     an = 10 * cnpDigits[1] + cnpDigits[2];
-
+  
     if (cnpDigits[0] < 3) {
       an += 1900;
     } else if (cnpDigits[0] < 5) {
@@ -72,20 +72,44 @@ const User = () => {
     } else {
       an += 1900;
     }
-
+  
     luna = 10 * cnpDigits[3] + cnpDigits[4];
     zi = 10 * cnpDigits[5] + cnpDigits[6];
-
+  
     const dateOfBirth = `${zi}.${luna}.${an}`;
+    const sex = cnpDigits[0] % 2 === 0 ? 'Feminin' : 'Masculin';
 
-    // Set CNP details
-    setCnpDetails({ location, dateOfBirth });
-
-    alert(location+", "+dateOfBirth);
-
+    setCnpDetails({ location, dateOfBirth, sex });
     return true;
   };
+  useEffect(() => {
+    // Check CNP length and update details if it has 13 characters
+    if (cnp.length === 13) {
+      const isValidCNP = validateCNP();
 
+      if (isValidCNP) {
+        // Display CNP details based on the current input
+        const details = cnpDetails
+          ? `CNP status: Valid<br />Data nasterii: ${cnpDetails.dateOfBirth}<br />Locatia nasterii: ${cnpDetails.location}<br />Sex: ${cnpDetails.sex}`
+          : '';
+
+        // Use ref to access the element
+        if (cnpStatusRef.current) {
+          cnpStatusRef.current.innerHTML = details;
+        }
+      } else {
+        // Display CNP is invalid
+        if (cnpStatusRef.current) {
+          cnpStatusRef.current.innerHTML = 'CNP status: Invalid';
+        }
+      }
+    } else {
+      // Display a message when CNP length is not 13
+      if (cnpStatusRef.current) {
+        cnpStatusRef.current.innerHTML = 'CNP status: Invalid (not 13 characters)';
+      }
+    }
+  }, [cnp, cnpDetails]);
   const addData = () => {
     if (!cnp || !user) {
       alert('Fields not completed.');
@@ -123,6 +147,12 @@ const User = () => {
     <div className={`container ${darkMode ? 'dark-mode' : ''}`}>
       <div className="wrapper">
         <div className={`add_input ${darkMode ? 'dark-mode-fields' : ''}`}>
+        <div ref={cnpStatusRef} className="cnp-status">
+            <p>CNP staus: </p>
+            <p>Data nasterii:</p>
+            <p>Sex: </p>
+            <p>Locatia nasterii: </p>
+          </div>
           <input
             className={`input ${darkMode ? 'dark-mode-input' : ''}`}
             type="text"
@@ -138,7 +168,7 @@ const User = () => {
             placeholder="CNP"
           />
           <select
-            className={`select ${darkMode ? 'dark-mode-select' : ''}`}
+            className={` ${darkMode ? "dark-mode-input" : ""}`}
             onChange={handleItemChange}
           >
             <option value="">Select Item</option>

@@ -12,13 +12,17 @@
   transition: background-color 0.3s; /* Smooth transition for background color change */
 }
 
-.dark-mode .navbar {
-  background-color: #111; /* Dark background for dark mode */
+/* .dark-mode .navbar {
+  background-color: #111; /* Dark background for dark mode 
+} */
+.dark-mode .navbar{
+  background-color: transparent;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
-
 .nav-link {
   color: black; /* Default text color */
   text-decoration: none;
+  font-weight: bold;
   font-size: 16px;
   margin: 0 10px; /* Reduced margin between links */
   padding: 10px;
@@ -27,10 +31,6 @@
 
 .nav-link:hover {
   background-color: #eee; /* Light background on hover */
-}
-
-.dark-mode .nav-link {
-  color: white; /* Text color in dark mode */
 }
 
 

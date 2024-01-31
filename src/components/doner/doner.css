@@ -13,23 +13,28 @@
   height: 100vh;
   background-color: #f0f0f0;
   flex-direction: column;
+  
 }
 
 .wrapper {
   display: flex;
   margin: 1rem;
   flex-direction: row;
+  border-radius: 10px;
+  box-shadow: 5px 5px 8px 8px rgba(0, 0, 0, 0.1);
 }
 
 .add_input,
 select {
   flex: 1;
   padding: 1.5rem;
-  background-color: #fff;
-  border-radius: 8px 0 0 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 1px 0 0 1px;
+  
 }
-
+.input:focus,
+select:focus{
+  outline: none;
+}
 select {
   width: 100% !important;
 }
@@ -40,12 +45,15 @@ select {
   margin-bottom: 0.5rem;
   padding: 1rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .button {
   width: 100%;
   padding: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
   background-color: #007bff;
   color: #fff;
   margin: 0.5rem 0;
@@ -70,7 +78,7 @@ select {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 /* Media Query for Small Screens */

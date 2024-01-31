@@ -9,6 +9,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
   const routes = [
     { path: '/harta', destination: '/harta', text: 'Harta' },
     { path: '/donator', destination: '/donator', text: 'Donator' },
+    { path: '/user', destination: '/user', text: 'Utilizator' },
     // Add more routes as needed
   ];
 

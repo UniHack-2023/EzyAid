@@ -14,8 +14,8 @@ const customMarkerIcon = new L.Icon({
 
 function Map() {
   const [waypoints, setWaypoints] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedLocation] = useState(null);
+  const [selectedColor] = useState(null);
   const [darkMode, setDarkMode] = useState(true);
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -87,34 +87,7 @@ function Map() {
   return (
     <div className={` ${darkMode ? "dark-mode" : ""}`}>
       <Nav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <div>
-        <select className={` ${darkMode ? "dark-mode-input" : ""}`} onChange={(e) => setSelectedLocation(e.target.value)}>
-          <option value="">All Locations</option>
-          {waypoints.map((waypoint) => (
-            <option key={waypoint.location} value={waypoint.location}>
-              {waypoint.location}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <select className={` ${darkMode ? "dark-mode-input" : ""}`} onChange={(e) => setSelectedColor(e.target.value)}>
-          <option value="">All Colors</option>
-          {waypoints.reduce((colors, waypoint) => {
-            waypoint.items.forEach((item) => {
-              if (item.culoare && !colors.includes(item.culoare)) {
-                colors.push(item.culoare);
-              }
-            });
-            return colors;
-          }, []).map((color) => (
-            <option key={color} value={color}>
-              {color}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div id="map" style={{ height: '700px' }}></div>
+      <div id="map" style={{ height: '685px','margin-top': '4.5rem' }}></div>
     </div>
   );
 }
