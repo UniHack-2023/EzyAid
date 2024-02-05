@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import {Nav} from "../index";
+
 import axios from "axios";
-import "./database.css";
 
 const Database = () => {
   const [itemToAdd, setItemToAdd] = useState("");
@@ -12,11 +11,9 @@ const Database = () => {
   const [color,setColor] = useState("");
   const [coords, setCoords] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Imbracaminte");
-  const [darkMode, setDarkMode] = useState(true);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+
+
   const createChangeHandler = (setStateFunction) => (event) => {
     setStateFunction(event.target.value);
   };
@@ -34,7 +31,7 @@ const Database = () => {
   const renderSizeOptions = () => { 
     if (selectedCategory === "Imbracaminte") {
       return (
-        <select id="sizes" value={sizeToAdd} onChange={handleSizeChange} className={` ${darkMode ? "dark-mode-input" : ""}`}>
+        <select id="sizes" value={sizeToAdd} onChange={handleSizeChange} className='select'>
           <option value="XS">XS</option>
           <option value="S">S</option>
           <option value="SM">SM</option>
@@ -50,7 +47,7 @@ const Database = () => {
           id="shoe-sizes"
           value={shoeSizeToAdd}
           onChange={handleShoeSizeChange}
-          className={` ${darkMode ? "dark-mode-input" : ""}`}
+          className='select'
         >
           <option value="36" defaultValue>
             36
@@ -137,12 +134,11 @@ const Database = () => {
   return (
     
 
-    <div className={`container ${darkMode ? "dark-mode" : ""}`}>
-      <Nav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <div className="wrapper">
-        <div className={`add_input ${darkMode ? "dark-mode-fields" : ""}`}>
+    <div className='container flex w-full justify-center items-center m-auto flex-col gap-4 h-screen'>
+      <div className="wrapper flex m-[1rem] font-bold rounded-[10px] shadow-perfect">
+        <div className='add_input'>
           <input
-            className={`input ${darkMode ? "dark-mode-input" : ""}`}
+            className='input'
             type="text"
             value={Location}
             onChange={handleLocation}
@@ -152,49 +148,49 @@ const Database = () => {
             id="category"
             value={selectedCategory}
             onChange={handleCategoryChange}
-            className={` ${darkMode ? "dark-mode-input" : ""}`}
+            className='select'
           >
             <option value="Imbracaminte">Imbracaminte</option>
             <option value="Incaltaminte">Incaltaminte</option>
           </select>
           {renderSizeOptions()}
           <input
-            className={`input ${darkMode ? "dark-mode-input" : ""}`}
+            className='input'
             type="text"
             value={itemToAdd}
             onChange={handleItemToAddChange}
             placeholder="Numele produsului"
           />
           <input
-            className={`input ${darkMode ? "dark-mode-input" : ""}`}
+            className='input'
             type="text"
             value={color}
             onChange={handleColor}
             placeholder="Culoarea produsului"
           />
           <input
-            className={`input ${darkMode ? "dark-mode-input" : ""}`}
+            className='input'
             type="number"
 
             value={countToAdd <= 0 ? 1 : countToAdd}
             onChange={handleCountToAddChange}
             placeholder="Cantitate"
           />
-          <button className={`button ${darkMode ? "dark-mode-button" : ""}`} onClick={handleAddItem}>
+          <button className='button' onClick={handleAddItem}>
             Add Item
           </button>
           <input
-            className={`input ${darkMode ? "dark-mode-input" : ""}`}
+            className='input'
             type="text"
             value={coords}
             onChange={handleCoords}
             placeholder="Coords for a new Location"
           />
-          <button className={`button ${darkMode ? "dark-mode-button" : ""}`} onClick={handleAddLocation}>
+          <button className='button w-full p-4 font-bold text-base bg-blue-500 text-white mb-2 border-none  cursor-pointer transition duration-300 ease-in-out rounded-xl' onClick={handleAddLocation}>
             Add Location
           </button>
         </div>
-        <div className="logo-container"></div>
+        <div className="logo-container text-center bg-transparent flex-1 bg-contain bg-center bg-no-repeat"></div>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./inv.css"; // Import the stylesheet
 import {Nav} from '../index';
 const Inv = () => {
   const [inventory, setInventory] = useState(null);

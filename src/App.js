@@ -1,13 +1,11 @@
 import React from "react";
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { DarkModeProvider } from './darkModeContext';
-import { Inv, Map,Doner,User } from './components';
+import { Inv, Map,Doner,User,Terms,DB } from './components';
 import "./App.css";
-import "./dark-mode.css";
 
 function App() {
   return (
-    <DarkModeProvider>
+    
       <Router>
         <Routes>
           <Route
@@ -15,15 +13,16 @@ function App() {
             element={<><Navigate to="/donator" replace /></>}
           />
           <Route path="/donator" element={<Doner />} />
-          {/* <Route path="/database" element={<DB />} /> */}
+          <Route path="/database" element={<DB />} />
           <Route path="/inventory" element={<Inv />} />
           <Route path="/harta" element={<Map />} />
           <Route path="/user" element={<User />} />
+          <Route path="/terms" element={<Terms />} />
 
         </Routes>
 
       </Router>
-    </DarkModeProvider>
+    
   );
 }
 
