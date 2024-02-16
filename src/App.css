@@ -8,14 +8,6 @@
   --bg-color: #a2ccfe;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
   background: var(--bg-color);
 }
@@ -28,9 +20,7 @@ body {
 
 * {
   box-sizing: border-box;
-  @apply overflow-hidden;
 }
-
 .add_input,
 .select {
   @apply flex-1 p-6 rounded-[0.1px];

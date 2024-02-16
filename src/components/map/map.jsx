@@ -16,10 +16,6 @@ function Map() {
   const [waypoints, setWaypoints] = useState([]);
   const [selectedLocation] = useState(null);
   const [selectedColor] = useState(null);
-  const [darkMode, setDarkMode] = useState(true);
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,10 +81,7 @@ function Map() {
   }, [waypoints]);
 
   return (
-    <div className={` ${darkMode ? "dark-mode" : ""}`}>
-      <Nav darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <div id="map" style={{ height: '685px','margin-top': '4.5rem' }}></div>
-    </div>
+    <div id="map" style={{ height: '685px'}}></div>
   );
 }
 

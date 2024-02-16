@@ -6,23 +6,45 @@ import { Link } from "react-router-dom";
 export default function User() {
   const [cnp, setCnp] = useState("");
   const [user, setUser] = useState("");
-  const [items] = useState([]);
-  // const preselectedLocation = "Pit";
+  const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
   const cnpStatusRef = useRef(null);
   const [cnpDetails, setCnpDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch item data from all locations
+        const response = await axios.get('/locatii'); // Adjust your Flask API endpoint
+        const itemsData = response.data;
+  
+        // Assuming itemsData is an object with keys representing locations
+        // Extracting items from all locations
+        const allItems = Object.values(itemsData)
+          .flatMap(location => location.items || []);
+  
+        setItems(allItems || []);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   const createChangeHandler = (setStateFunction) => (event) => {
     setStateFunction(event.target.value);
   };
 
   const handleUserChange = createChangeHandler(setUser);
+
   const handleItemChange = (event) => {
-    // Handle item change here
+    const selected = event.target.value;
+    setSelectedItem(selected);
   };
+
   const handleCnpChange = (event) => {
-    // Allow only numeric values
     const result = event.target.value.replace(/\D/g, "");
-    // Limit the length to 13 digits
     if (result.length <= 13) {
       setCnp(result);
     }
@@ -214,12 +236,13 @@ export default function User() {
           />
           <select
             className="select"
+            value={selectedItem}
             onChange={handleItemChange}
           >
             <option value="">Select Item</option>
-            {items.map((item) => (
-              <option key={item} value={item}>
-                {item}
+            {items.map((itemObject) => (
+              <option key={itemObject.item} value={itemObject.item}>
+                {itemObject.item}
               </option>
             ))}
           </select>
