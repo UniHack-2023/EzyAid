@@ -17,7 +17,12 @@ const Database = () => {
   };
   
   const handleItemToAddChange = createChangeHandler(setItemToAdd);
-  const handleCountToAddChange = createChangeHandler(setCountToAdd);
+  const handleCountToAddChange = (event) => {
+    const result = event.target.value.replace(/\D/g, "");
+    if (result.length <= 13) {
+      setCountToAdd(result);
+    }
+  };
   const handleCategoryChange = createChangeHandler(setSelectedCategory);
   const handleSizeChange = createChangeHandler(setSizeToAdd);
   const handleShoeSizeChange = createChangeHandler(setShoeSizeToAdd);
@@ -167,7 +172,7 @@ const Database = () => {
           />
           <input
             className='input'
-            type="number"
+            type="text"
 
             value={countToAdd <= 0 ? 1 : countToAdd}
             onChange={handleCountToAddChange}

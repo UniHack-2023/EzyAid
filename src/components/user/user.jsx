@@ -63,7 +63,7 @@ export default function User() {
     for (let i = 0; i < 12; i++) {
       sum += cnpDigits[i] * controlKey[i];
     }
-
+    
     const remainder = sum % 11;
     const validControlKey = remainder === 10 ? 1 : remainder;
     if (validControlKey !== cnpDigits[12]) {
@@ -124,10 +124,9 @@ export default function User() {
 
     const judet = 10 * cnpDigits[7] + cnpDigits[8];
     const location = judetArray[judet - 1];
-
     let an, luna, zi;
     an = 10 * cnpDigits[1] + cnpDigits[2];
-
+    
     if (cnpDigits[0] < 3) {
       an += 1900;
     } else if (cnpDigits[0] < 5) {
@@ -137,13 +136,18 @@ export default function User() {
     } else {
       an += 1900;
     }
-
+    
     luna = 10 * cnpDigits[3] + cnpDigits[4];
+    
     zi = 10 * cnpDigits[5] + cnpDigits[6];
 
     const dateOfBirth = `${zi}.${luna}.${an}`;
     const sex = cnpDigits[0] % 2 === 0 ? "Feminin" : "Masculin";
 
+    //Cases
+    if(sum===0)return false;
+    if(location == null)return false;
+    if(luna>12)return false;
     setCnpDetails({ location, dateOfBirth, sex });
     return true;
   };
