@@ -206,7 +206,7 @@ export default function User() {
       })
       .catch((error) => {
         if (error.response.status === 400) {
-          alert(" CNP already exissts.");
+          alert(" CNP already exists.");
         } else {
           console.error("Error adding data:", error);
           alert("Error adding data. Please try again later.");
