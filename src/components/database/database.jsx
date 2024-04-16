@@ -134,8 +134,8 @@ const Database = () => {
   return (
     
 
-    <div className='container flex w-full justify-center items-center m-auto flex-col gap-4 h-screen'>
-      <div className="wrapper flex m-[1rem] font-bold rounded-[10px] shadow-perfect">
+    <div className='container'>
+      <div className="wrapper ">
         <div className='add_input'>
           <input
             className='input'
@@ -186,11 +186,11 @@ const Database = () => {
             onChange={handleCoords}
             placeholder="Coords for a new Location"
           />
-          <button className='button w-full p-4 font-bold text-base bg-blue-500 text-white mb-2 border-none  cursor-pointer transition duration-300 ease-in-out rounded-xl' onClick={handleAddLocation}>
+          <button className='button' onClick={handleAddLocation}>
             Add Location
           </button>
         </div>
-        <div className="logo-container text-center bg-transparent flex-1 bg-contain bg-center bg-no-repeat"></div>
+        <div className="logo-container "></div>
       </div>
     </div>
   );

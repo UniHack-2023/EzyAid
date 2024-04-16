@@ -6,10 +6,11 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --bg-color: #a2ccfe;
+  --bg-color2: #fff;
 }
 
 body {
-  background: var(--bg-color);
+  background: var(--bg-color2);
 }
 
 @layer utilities {
@@ -21,14 +22,20 @@ body {
 * {
   box-sizing: border-box;
 }
+
 .add_input,
 .select {
-  @apply flex-1 p-6 rounded-[0.1px];
+  @apply flex-1 p-6;
 }
-
+.container{
+  @apply flex w-full justify-center items-center m-auto flex-col gap-4 h-screen;
+}
+.wrapper{
+  @apply flex m-[1rem] font-bold shadow-perfect;
+}
 .input:focus,
 .select:focus {
-  @apply outline-none;
+  @apply outline-none bg-white;
 }
 
 .select {
@@ -37,14 +44,17 @@ body {
 
 .input,
 .select {
-  @apply outline-none w-full mb-2 p-4 border-b-[2px] border-black bg-transparent text-base font-bold;
+  @apply outline-none w-full mb-2 p-4 border-[1px] border-black bg-blue-50 text-base font-bold;
 }
-
+.button{
+  @apply w-full p-4 font-bold text-base bg-blue-500 text-white mb-2 border-none  cursor-pointer transition duration-300 ease-in-out;
+}
 .button:hover {
   @apply bg-blue-700;
 }
 
 .logo-container {
+  @apply text-center bg-transparent flex-1 bg-contain bg-center bg-no-repeat;
   background-image: url('./logo_2.png');
 }
 

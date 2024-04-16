@@ -15,7 +15,7 @@ const Terms = () => {
     Înțeleg că datele mele pot fi comunicate numai destinatarilor abilitați prin acte
      normative, inclusiv organelor de poliție, parchetelor, instanțelor sau altor autorități publice, în condițiile legii.
      </p>
-     <button className='button w-[550px] p-4 font-bold text-base bg-blue-500 text-white mb-2 border-none  cursor-pointer transition duration-300 ease-in-out rounded-xl'><Link to="/user">Accepta</Link></button>
+     <button className='button '><Link to="/user">Accepta</Link></button>
      </div>
   )
 }

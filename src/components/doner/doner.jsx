@@ -136,8 +136,8 @@ const Database = () => {
   return (
     
 
-    <div className='container flex w-full justify-center items-center m-auto flex-col gap-4 h-screen'>
-      <div className="wrapper flex m-[1rem] font-bold rounded-[10px] shadow-perfect">
+    <div className='container'>
+      <div className="wrapper">
         <div className='add_input'>
           <input
             className='input'
@@ -178,11 +178,11 @@ const Database = () => {
             onChange={handleCountToAddChange}
             placeholder="Cantitate"
           />
-          <button className='button w-full p-4 font-bold text-base bg-blue-500 text-white mb-2 border-none  cursor-pointer transition duration-300 ease-in-out rounded-xl' onClick={handleAddItem}>
+          <button className='button ' onClick={handleAddItem}>
             Add Item
           </button>
         </div>
-        <div className="logo-container text-center bg-transparent flex-1 bg-contain bg-center bg-no-repeat"></div>
+        <div className="logo-container"></div>
       </div>
     </div>
   );
