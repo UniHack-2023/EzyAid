@@ -81,7 +81,7 @@ function Map() {
   }, [waypoints]);
 
   return (
-    <div id="map" style={{ height: '685px'}}></div>
+    <div id="map" style={{ height: '900px'}}></div>
   );
 }
 

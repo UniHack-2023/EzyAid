@@ -23,20 +23,20 @@ def append_details(existing_details, new_details):
             # If the key does not exist, create a new list with the value
             existing_details[key] = [value]
     return existing_details          
-            
+      
 def servo():
-    port = 'COM9'
+    port = 'COM3'
     pin=7
     board=Arduino(port)
     closedangle =170
     board.digital[pin].mode=SERVO
     def rotateservo(pin, angle):
         board.digital[pin].write(angle)
-    rotateservo(pin,50)
-    time.sleep(10)
+    rotateservo(pin,120)
+    time.sleep(2)
     rotateservo(pin,closedangle)
-    # for i in range(closedangle, 180):
-    #     rotateservo(pin, i)
+    for i in range(closedangle, 180):
+        rotateservo(pin, i)
 @app.route('/inventory', methods=['GET'])
 def show_inventory():
     inventory = {}
@@ -117,7 +117,7 @@ def add_cnp(name, cnp):
     else:
         # Add hashed CNP to Redis
         redis_client.hset("Users", hashed_cnp, name)
-        servo()
+        # servo()
 
     response_data = {
         'status': 'success',

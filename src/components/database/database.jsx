@@ -87,7 +87,7 @@ const Database = () => {
 
     console.log("Request Data:", requestData);
     // Make the API request only if itemToAdd is not empty
-    axios.post(`/api/add/${Location}/${itemToAdd}`, requestData).then(() => {
+    axios.post(`/api/${Location}/${itemToAdd}`, requestData).then(() => {
       setItemToAdd("");
       setCountToAdd(1);
       setLocation("");

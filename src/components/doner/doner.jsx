@@ -179,7 +179,7 @@ const Database = () => {
             placeholder="Cantitate"
           />
           <button className='button ' onClick={handleAddItem}>
-            Add Item
+            Adauga produs
           </button>
         </div>
         <div className="logo-container"></div>
