@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/ezyaid-host/static/css/main.9ce522cf.css",
-    "main.js": "/ezyaid-host/static/js/main.3992631e.js",
-    "static/media/logo_2.png": "/ezyaid-host/static/media/logo_2.52ba4be88c96f1bcebb1.png",
-    "index.html": "/ezyaid-host/index.html",
-    "main.9ce522cf.css.map": "/ezyaid-host/static/css/main.9ce522cf.css.map",
-    "main.3992631e.js.map": "/ezyaid-host/static/js/main.3992631e.js.map"
+    "main.css": "./static/css/main.2c3cb109.css",
+    "main.js": "./static/js/main.3992631e.js",
+    "static/media/logo_2.png": "./static/media/logo_2.52ba4be88c96f1bcebb1.png",
+    "index.html": "./index.html",
+    "main.2c3cb109.css.map": "./static/css/main.2c3cb109.css.map",
+    "main.3992631e.js.map": "./static/js/main.3992631e.js.map"
   },
   "entrypoints": [
-    "static/css/main.9ce522cf.css",
+    "static/css/main.2c3cb109.css",
     "static/js/main.3992631e.js"
   ]
 }
