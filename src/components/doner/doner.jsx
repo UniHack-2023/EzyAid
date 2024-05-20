@@ -97,42 +97,6 @@ const Database = () => {
     });
 
   };
-  const handleAddLocation = () => {
-    // Check if the location already exists
-    axios.get(`/api/locatii/${Location}`)
-      .then((response) => {
-        const existingCoords = response.data[Location]?.coords;
-  
-        if (existingCoords) {
-          alert(`Location '${Location}' already exists with coordinates ${existingCoords}`);
-        } else {
-          // If the location doesn't exist, proceed with adding it
-          // Ensure that the coords are in the format "10,10"
-          const formattedCoords = coords.split(',').map(coord => coord.trim()).join(', ');
-          let requestLocationData = {
-            details: JSON.stringify({
-              coords: formattedCoords,
-            }),
-          };
-  
-          axios.post(`/api/locatii/${Location}`, requestLocationData)
-            .then(() => {
-              setCoords("");
-              alert(`Location '${Location}' added successfully with coordinates ${formattedCoords}`);
-            })
-            .catch((error) => {
-              console.error("Error adding location:", error);
-              alert("Error adding location. Please try again.");
-            });
-        }
-      })
-      .catch((error) => {
-        console.error("Error checking location:", error);
-        alert("Error checking location. Please try again.");
-      });
-  };
-
-
   return (
     
 
