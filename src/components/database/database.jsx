@@ -93,7 +93,6 @@ const Database = () => {
       setLocation("");
       setColor("");
     });
-
   };
   const handleAddLocation = () => {
     // Check if the location already exists
@@ -137,7 +136,7 @@ const Database = () => {
     <div className='container'>
       <div className="wrapper ">
         <div className='add_input'>
-          <input
+        <input
             className='input'
             type="text"
             value={Location}
@@ -170,14 +169,14 @@ const Database = () => {
           />
           <input
             className='input'
-            type="number"
+            type="text"
 
             value={countToAdd <= 0 ? 1 : countToAdd}
             onChange={handleCountToAddChange}
             placeholder="Cantitate"
           />
-          <button className='button' onClick={handleAddItem}>
-            Add Item
+          <button className='button ' onClick={handleAddItem}>
+            Adauga produs
           </button>
           <input
             className='input'

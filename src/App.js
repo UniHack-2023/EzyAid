@@ -4,8 +4,7 @@ import { Inv, Map,Doner,User,Terms,DB } from './components';
 import "./App.css";
 
 function App() {
-  return (
-    
+  return (   
       <Router>
         <Routes>
           <Route
@@ -16,13 +15,10 @@ function App() {
           <Route path="/database" element={<DB />} />
           {/* <Route path="/inventory" element={<Inv />} /> */}
           <Route path="/harta" element={<Map />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/terms" element={<Terms />} />
-
+          <Route path="/utilizator" element={<User />} />
+          <Route path="/termeni" element={<Terms />} />
         </Routes>
-
-      </Router>
-    
+      </Router> 
   );
 }
 
