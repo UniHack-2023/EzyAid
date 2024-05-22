@@ -14,7 +14,7 @@ function App() {
           />
           <Route path="/donator" element={<Doner />} />
           <Route path="/database" element={<DB />} />
-          <Route path="/inventory" element={<Inv />} />
+          {/* <Route path="/inventory" element={<Inv />} /> */}
           <Route path="/harta" element={<Map />} />
           <Route path="/user" element={<User />} />
           <Route path="/terms" element={<Terms />} />

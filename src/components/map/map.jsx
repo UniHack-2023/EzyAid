@@ -3,6 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import { Nav } from '../index';
+import { useNavigate } from 'react-router-dom';
 
 
 const customMarkerIcon = new L.Icon({
@@ -79,9 +80,25 @@ function Map() {
       map.remove();
     };
   }, [waypoints]);
-
+  const navigate = useNavigate();
   return (
-    <div id="map" style={{ height: '900px'}}></div>
+    <div id="map" className='relative h-[945px]' >
+    <button
+      className='button userbtn !w-[60px]'
+      style={{
+        position: 'absolute',
+        top: '13px',
+        left: '50px',
+        width: '60px',
+        height: '60px',
+        zIndex: 1000
+      }}
+      onClick={() => navigate("/donator")}
+    >
+      
+    </button>
+  </div>
+
   );
 }
 

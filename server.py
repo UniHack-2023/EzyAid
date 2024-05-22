@@ -28,11 +28,11 @@ def servo():
     port = 'COM3'
     pin=7
     board=Arduino(port)
-    closedangle =170
+    closedangle =130
     board.digital[pin].mode=SERVO
     def rotateservo(pin, angle):
         board.digital[pin].write(angle)
-    rotateservo(pin,120)
+    rotateservo(pin,90)
     time.sleep(2)
     rotateservo(pin,closedangle)
     for i in range(closedangle, 180):
@@ -117,7 +117,7 @@ def add_cnp(name, cnp):
     else:
         # Add hashed CNP to Redis
         redis_client.hset("Users", hashed_cnp, name)
-        # servo()
+        servo()
 
     response_data = {
         'status': 'success',
@@ -177,9 +177,6 @@ def add_item(location, item_name):
         # If there are no existing details, treat it as a new item and add it
         redis_client.hset(location, item_name, json.dumps(details))
         return jsonify({'status': 200, 'message': f'{item_name} added to the database'})
-
-
-
 @app.route('/api/locatii/<location>', methods=['POST', 'GET'])
 def new_location(location):
     if request.method == 'POST':

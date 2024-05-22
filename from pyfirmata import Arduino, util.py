@@ -1,7 +1,7 @@
 from pyfirmata import Arduino, SERVO, util
 from time import sleep
 
-port = 'COM9'
+port = 'COM3'
 pin=7
 board=Arduino(port)
 

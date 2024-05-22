@@ -125,3 +125,25 @@ body {
 .loading {
   @apply text-center text-3xl mt-16;
 }
+.mapbtn{
+  background-image: url(../src/logo.png);
+  background-size: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.adaugabtn{
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+.userbtn{
+  background-image: url(../src/user.png);
+  background-size: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 100%;
+}
+.ridicabtn{
+  border-radius: 12px;
+}

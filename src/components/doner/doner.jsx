@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 const Database = () => {
   const [itemToAdd, setItemToAdd] = useState("");
@@ -8,10 +8,24 @@ const Database = () => {
   const [shoeSizeToAdd, setShoeSizeToAdd] = useState("36");
   const [countToAdd, setCountToAdd] = useState(1);
   const [Location, setLocation] = useState("");
-  const [color,setColor] = useState("");
+  const [color, setColor] = useState("");
   const [coords, setCoords] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Imbracaminte");
-
+  const [locations, setLocations] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    axios.get("/locatii")
+      .then(response => {
+        const fetchedLocations = Object.keys(response.data).map(location => ({
+          name: location,
+          coords: response.data[location].coords,
+        }));
+        setLocations(fetchedLocations);
+      })
+      .catch(error => {
+        console.error("Error fetching locations:", error);
+      });
+  }, []);
   const createChangeHandler = (setStateFunction) => (event) => {
     setStateFunction(event.target.value);
   };
@@ -97,55 +111,33 @@ const Database = () => {
     });
 
   };
-  const handleAddLocation = () => {
-    // Check if the location already exists
-    axios.get(`/api/locatii/${Location}`)
-      .then((response) => {
-        const existingCoords = response.data[Location]?.coords;
-  
-        if (existingCoords) {
-          alert(`Location '${Location}' already exists with coordinates ${existingCoords}`);
-        } else {
-          // If the location doesn't exist, proceed with adding it
-          // Ensure that the coords are in the format "10,10"
-          const formattedCoords = coords.split(',').map(coord => coord.trim()).join(', ');
-          let requestLocationData = {
-            details: JSON.stringify({
-              coords: formattedCoords,
-            }),
-          };
-  
-          axios.post(`/api/locatii/${Location}`, requestLocationData)
-            .then(() => {
-              setCoords("");
-              alert(`Location '${Location}' added successfully with coordinates ${formattedCoords}`);
-            })
-            .catch((error) => {
-              console.error("Error adding location:", error);
-              alert("Error adding location. Please try again.");
-            });
-        }
-      })
-      .catch((error) => {
-        console.error("Error checking location:", error);
-        alert("Error checking location. Please try again.");
-      });
+  const renderLocationOptions = () => {
+    if (locations.length === 0) {
+      return null;
+    }
+
+    return (
+      <select
+        id="location"
+        value={Location}
+        onChange={handleLocation}
+        className='select'
+      >
+        {locations.map(location => (
+          <option key={location.name} value={location.name}>
+            {location.name} ({location.coords.join(', ')})
+          </option>
+        ))}
+      </select>
+    );
   };
-
-
   return (
     
 
     <div className='container'>
       <div className="wrapper">
         <div className='add_input'>
-          <input
-            className='input'
-            type="text"
-            value={Location}
-            onChange={handleLocation}
-            placeholder="Locatie"
-          />
+        {renderLocationOptions()}
           <select
             id="category"
             value={selectedCategory}
@@ -178,12 +170,19 @@ const Database = () => {
             onChange={handleCountToAddChange}
             placeholder="Cantitate"
           />
-          <button className='button ' onClick={handleAddItem}>
+          <div className="flex gap-1">
+          <button className='button adaugabtn w-[100px] ' onClick={handleAddItem}>
             Adauga produs
           </button>
+          <button className='button mapbtn !w-[60px]'  onClick={() => navigate("/harta")}>
+            
+          </button>
+          </div>
+
         </div>
         <div className="logo-container"></div>
       </div>
+
     </div>
   );
 };

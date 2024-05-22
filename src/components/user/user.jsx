@@ -188,6 +188,7 @@ export default function User() {
 
     if (!validateCNP()) {
       return;
+      
     }
 
     const data = {
@@ -257,7 +258,7 @@ export default function User() {
             <Link to="/donator" className="text-[red] underline">Politica de confidențialitate.</Link>
           </p>
           <button
-            className="button"
+            className="button ridicabtn"
             onClick={addData}
           >
             Ridica produs
